@@ -87,46 +87,47 @@ So if we send a loop of `SYN` packet on each port we can find which port is open
 sr(IP(dst="10.0.0.2")/TCP(dport=(1,2000),flags="S"))
 ```
 To get the answers we have to do
+
 ```
 ans,unans = _
-ans.summary()
+ans.summary( lambda(s,r): r.sprintf("%TCP.sport% \t %TCP.flags%") )
 ```
 
 And we get something like that :
 ```
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:1 S ==> IP / TCP 10.0.0.2:1 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:2 S ==> IP / TCP 10.0.0.2:2 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:3 S ==> IP / TCP 10.0.0.2:3 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:4 S ==> IP / TCP 10.0.0.2:4 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:5 S ==> IP / TCP 10.0.0.2:5 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:6 S ==> IP / TCP 10.0.0.2:6 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:echo S ==> IP / TCP 10.0.0.2:echo > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:8 S ==> IP / TCP 10.0.0.2:8 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:discard S ==> IP / TCP 10.0.0.2:discard > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:10 S ==> IP / TCP 10.0.0.2:10 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:11 S ==> IP / TCP 10.0.0.2:11 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:12 S ==> IP / TCP 10.0.0.2:12 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:daytime S ==> IP / TCP 10.0.0.2:daytime > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:14 S ==> IP / TCP 10.0.0.2:14 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:netstat S ==> IP / TCP 10.0.0.2:netstat > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:16 S ==> IP / TCP 10.0.0.2:16 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:17 S ==> IP / TCP 10.0.0.2:17 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:18 S ==> IP / TCP 10.0.0.2:18 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:chargen S ==> IP / TCP 10.0.0.2:chargen > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:ftp_data S ==> IP / TCP 10.0.0.2:ftp_data > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:ftp S ==> IP / TCP 10.0.0.2:ftp > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:ssh S ==> IP / TCP 10.0.0.2:ssh > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:telnet S ==> IP / TCP 10.0.0.2:telnet > 10.0.0.1:ftp_data SA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:24 S ==> IP / TCP 10.0.0.2:24 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:smtp S ==> IP / TCP 10.0.0.2:smtp > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:26 S ==> IP / TCP 10.0.0.2:26 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:27 S ==> IP / TCP 10.0.0.2:27 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:28 S ==> IP / TCP 10.0.0.2:28 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:29 S ==> IP / TCP 10.0.0.2:29 > 10.0.0.1:ftp_data RA / Padding
-IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:30 S ==> IP / TCP 10.0.0.2:30 > 10.0.0.1:ftp_data RA / Padding
+1 	 RA
+2 	 RA
+3 	 RA
+4 	 RA
+5 	 RA
+6 	 RA
+echo 	 RA
+8 	 RA
+discard 	 RA
+10 	 RA
+11 	 RA
+12 	 RA
+daytime 	 RA
+14 	 RA
+netstat 	 RA
+16 	 RA
+17 	 RA
+18 	 RA
+chargen 	 RA
+ftp_data 	 RA
+ftp 	 RA
+ssh 	 RA
+telnet 	 SA
+24 	 RA
+smtp 	 RA
+26 	 RA
+27 	 RA
+28 	 RA
+29 	 RA
+30 	 RA
 ```
 
-We can see the TCP flag before `/ Padding`. For closed port this should be `RA` (for `RESET-ACK`).
+We can see the TCP flag associated to ports. For closed port this should be `RA` (for `RESET-ACK`).
 For opened port this should be `SA` (for `SYN-ACK`).
 
 We can see that the only open port is telnet's port (23).
