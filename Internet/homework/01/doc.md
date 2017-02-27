@@ -86,7 +86,7 @@ So if we send a loop of `SYN` packet on each port we can find which port is open
 ```
 sr(IP(dst="10.0.0.2")/TCP(dport=(1,2000),flags="S"))
 ```
-To get the answer we have to do
+To get the answers we have to do
 ```
 ans,unans = _
 ans.summary()
@@ -126,7 +126,7 @@ IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:29 S ==> IP / TCP 10.0.0.2:29 > 10.0.0.1:f
 IP / TCP 10.0.0.1:ftp_data > 10.0.0.2:30 S ==> IP / TCP 10.0.0.2:30 > 10.0.0.1:ftp_data RA / Padding
 ```
 
-We can see the TCP flag before "/ Padding". For closed port this should be `RA` (for `RESET-ACK`).
+We can see the TCP flag before `/ Padding`. For closed port this should be `RA` (for `RESET-ACK`).
 For opened port this should be `SA` (for `SYN-ACK`).
 
 We can see that the only open port is telnet's port (23).
