@@ -67,7 +67,7 @@ iptables -t raw -A OUTPUT -p tcp --tcp-flags RST RST -d 10.0.0.2 -j DROP
 ```
 
 We can see here that `R2` doesn't receive any `ACK` from `R1` so it try to
-resend its `SYN-ACK` package. After 6 attempts, it doesn't send anything else.
+resend its `SYN-ACK` package. After 6 attempts, it give up.
 The connection stayed open at least for 32 secondes which is a very long allocation
 of resources because of a single TCP packet.
 
