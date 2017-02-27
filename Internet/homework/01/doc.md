@@ -24,7 +24,7 @@ send(IP(dst="10.0.0.2")/TCP(dport=80,flags="S"))
 ```
 
 We can see that `R2` answer with a `[R.]`, which mean `RESET` and `ACK`.
-In this case, `R2` has closed the connection after this reset packet because their is no application listening on this port.
+In this case, `R2` has closed the connection because therei is no application listening on this port.
 
 ### TCP SYN Exchange when target's port is opened
 The TCP port 23, is telnet's port which should be opened on this router.
